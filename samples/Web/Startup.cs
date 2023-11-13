@@ -15,6 +15,7 @@ namespace MvcCode
             JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 
             services.AddControllersWithViews();
+            services.AddRazorPages();
 
             services.AddAuthentication(options =>
             {
@@ -118,6 +119,8 @@ namespace MvcCode
             {
                 endpoints.MapDefaultControllerRoute()
                     .RequireAuthorization();
+
+                endpoints.MapRazorPages();
             });
         }
     }

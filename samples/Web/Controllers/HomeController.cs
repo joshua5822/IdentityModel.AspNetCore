@@ -1,4 +1,5 @@
 ﻿using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Authorization;
@@ -11,10 +12,12 @@ namespace MvcCode.Controllers
     public class HomeController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly TypedClientClient client2;
 
-        public HomeController(IHttpClientFactory httpClientFactory)
+        public HomeController(IHttpClientFactory httpClientFactory, TypedClientClient client)
         {
             _httpClientFactory = httpClientFactory;
+            client2 = client;
         }
 
         [AllowAnonymous]
@@ -26,9 +29,9 @@ namespace MvcCode.Controllers
 
         public async Task<IActionResult> CallApiAsUser()
         {
-            var client = _httpClientFactory.CreateClient("user_client");
+            HttpClient client = _httpClientFactory.CreateClient("user_client");
 
-            var response = await client.GetStringAsync("test");
+            string response = await client.GetStringAsync("test");
             ViewBag.Json = JArray.Parse(response).ToString();
 
             return View("CallApi");
@@ -36,7 +39,7 @@ namespace MvcCode.Controllers
 
         public async Task<IActionResult> CallApiAsUserTyped([FromServices] TypedUserClient client)
         {
-            var response = await client.CallApi();
+            string response = await client.CallApi();
             ViewBag.Json = JArray.Parse(response).ToString();
 
             return View("CallApi");
@@ -45,9 +48,9 @@ namespace MvcCode.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> CallApiAsClient()
         {
-            var client = _httpClientFactory.CreateClient("client");
+            HttpClient client = _httpClientFactory.CreateClient("client");
 
-            var response = await client.GetStringAsync("test");
+            string response = await client.GetStringAsync("test");
             ViewBag.Json = JArray.Parse(response).ToString();
 
             return View("CallApi");
@@ -56,7 +59,15 @@ namespace MvcCode.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> CallApiAsClientTyped([FromServices] TypedClientClient client)
         {
-            var response = await client.CallApi();
+            string response = await client.CallApi();
+            ViewBag.Json = JArray.Parse(response).ToString();
+
+            return View("CallApi");
+        }
+
+        public async Task<IActionResult> CallApiAsConstructedClientTyped()
+        {
+            string response = await client2.CallApi();
             ViewBag.Json = JArray.Parse(response).ToString();
 
             return View("CallApi");
