@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebMultiResource", "samples
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorServer", "samples\BlazorServer\BlazorServer.csproj", "{4B08A8E3-8C9D-4F03-AD72-F461F13C7CA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazorWebApplication", "samples\RazorWebApplication\RazorWebApplication.csproj", "{275593D8-E784-435E-83A4-79CA9F7699DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RazorWebApplication", "samples\RazorWebApplication\RazorWebApplication.csproj", "{275593D8-E784-435E-83A4-79CA9F7699DB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -13,7 +13,10 @@ namespace RazorWebApplication
         {
             JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 
-            services.AddRazorPages();
+            services.AddRazorPages(options =>
+            {
+                options.Conventions.AuthorizePage("/Secure");
+            });
 
             services.AddAuthentication(options =>
             {
@@ -60,6 +63,46 @@ namespace RazorWebApplication
                         RoleClaimType = "role"
                     };
                 });
+
+            // adds user and client access token management
+            services.AddAccessTokenManagement(options =>
+            {
+                // client config is inferred from OpenID Connect settings
+                // if you want to specify scopes explicitly, do it here, otherwise the scope parameter will not be sent
+                options.Client.DefaultClient.Scope = "api";
+            })
+                .ConfigureBackchannelHttpClient()
+                    .AddTransientHttpErrorPolicy(policy => policy.WaitAndRetryAsync(new[]
+                    {
+                        TimeSpan.FromSeconds(1),
+                        TimeSpan.FromSeconds(2),
+                        TimeSpan.FromSeconds(3)
+                    }));
+
+            // registers HTTP client that uses the managed user access token
+            services.AddUserAccessTokenHttpClient("user_client", configureClient: client =>
+            {
+                client.BaseAddress = new Uri("https://demo.duendesoftware.com/api/");
+            });
+
+            // registers HTTP client that uses the managed client access token
+            services.AddClientAccessTokenHttpClient("client", configureClient: client =>
+            {
+                client.BaseAddress = new Uri("https://demo.duendesoftware.com/api/");
+            });
+
+            // registers a typed HTTP client with token management support
+            services.AddHttpClient<TypedUserClient>(client =>
+            {
+                client.BaseAddress = new Uri("https://demo.duendesoftware.com/api/");
+            })
+                .AddUserAccessTokenHandler();
+
+            services.AddHttpClient<TypedClientClient>(client =>
+            {
+                client.BaseAddress = new Uri("https://demo.duendesoftware.com/api/");
+            })
+                .AddClientAccessTokenHandler();
         }
 
         public void Configure(IApplicationBuilder app)
