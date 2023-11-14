@@ -3,6 +3,8 @@ using Microsoft.IdentityModel.Tokens;
 
 using Polly;
 
+using Serilog;
+
 using System.IdentityModel.Tokens.Jwt;
 
 namespace RazorWebApplication
@@ -120,6 +122,8 @@ namespace RazorWebApplication
             {
                 endpoints.MapRazorPages();
             });
+
+            app.UseSerilogRequestLogging();
         }
     }
 }
