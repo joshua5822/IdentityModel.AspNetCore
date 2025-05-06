@@ -3,10 +3,11 @@
 
 using System;
 using System.Collections.Generic;
-using IdentityModel.Client;
+using Duende.IdentityModel.Client;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using Duende.IdentityModel;
 using Microsoft.Extensions.Logging;
 
 namespace IdentityModel.AspNetCore.AccessTokenManagement

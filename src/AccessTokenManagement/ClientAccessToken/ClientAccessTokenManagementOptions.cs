@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using IdentityModel.Client;
+using Duende.IdentityModel.Client;
 
 namespace IdentityModel.AspNetCore.AccessTokenManagement
 {

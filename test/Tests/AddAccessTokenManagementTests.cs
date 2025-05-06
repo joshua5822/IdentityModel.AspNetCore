@@ -1,6 +1,6 @@
 ﻿using System.Reflection.Metadata.Ecma335;
 using IdentityModel.AspNetCore.AccessTokenManagement;
-using IdentityModel.Client;
+using Duende.IdentityModel.Client;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Xunit;
